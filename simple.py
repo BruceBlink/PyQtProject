@@ -12,7 +12,8 @@ Website: zetcode.com
 """
 
 import sys
-from PyQt6.QtWidgets import QApplication, QWidget, QLabel, QToolTip, QPushButton, QMessageBox, QMainWindow, QMenu
+from PyQt6.QtWidgets import QApplication, QWidget, QLabel, QToolTip, QPushButton, QMessageBox, QMainWindow, QMenu, \
+    QTextEdit
 from PyQt6.QtGui import QFont, QAction, QIcon
 
 
@@ -233,6 +234,34 @@ class SimpleToolBar(QMainWindow):
         self.show()
 
 
+class SimpleMainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.initInterface()
+
+    def initInterface(self):
+        textEdit = QTextEdit()
+        self.setCentralWidget(textEdit)
+
+        exit_act = QAction(QIcon('exit.png'), 'Exit', self)
+        exit_act.setShortcut('Ctrl+Q')
+        exit_act.setStatusTip('Exit application')
+        exit_act.triggered.connect(self.close)
+
+        self.statusBar()
+
+        menu_bar = self.menuBar()
+        file_menu = menu_bar.addMenu('&File')
+        file_menu.addAction(exit_act)
+
+        tool_bar = self.addToolBar('Exit')
+        tool_bar.addAction(exit_act)
+
+        self.setGeometry(300, 300, 350, 250)
+        self.setWindowTitle('Main window')
+        self.show()
+
+
 def main():
     app = QApplication(sys.argv)
     # hello = HelloWorld()
@@ -245,7 +274,8 @@ def main():
     # simple_sub_ment = SimpleSubMenu()
     # simple_check_menu = SimpleCheckMenu()
     # simple_context_menu = SimpleContexMenu()
-    simple_tool_bar = SimpleToolBar()
+    # simple_tool_bar = SimpleToolBar()
+    simple_main_window = SimpleMainWindow()
     sys.exit(app.exec())
 
 
