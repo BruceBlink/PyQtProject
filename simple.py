@@ -12,7 +12,7 @@ Website: zetcode.com
 """
 
 import sys
-from PyQt6.QtWidgets import QApplication, QWidget, QLabel, QToolTip, QPushButton, QMessageBox, QMainWindow
+from PyQt6.QtWidgets import QApplication, QWidget, QLabel, QToolTip, QPushButton, QMessageBox, QMainWindow, QMenu
 from PyQt6.QtGui import QFont, QAction, QIcon
 
 
@@ -136,6 +136,27 @@ class SimpleMenu(QMainWindow):
         self.show()
 
 
+class SimpleSubMenu(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.initInterface()
+
+    def initInterface(self):
+        menu_bar = self.menuBar()
+        fileMenu = menu_bar.addMenu('File')
+
+        imp_menu = QMenu('Import', self)
+        imp_action = QAction('Import mail', self)
+        imp_menu.addAction(imp_action)
+
+        new_action = QAction('New', self)
+        fileMenu.addAction(new_action)
+        fileMenu.addMenu(imp_menu)
+        self.setGeometry(300, 300, 350, 250)
+        self.setWindowTitle('Submenu')
+        self.show()
+
+
 def main():
     app = QApplication(sys.argv)
     # hello = HelloWorld()
@@ -144,7 +165,8 @@ def main():
     # message_box = MessageBox()
     # center_screen = CenterScreen()
     # state_bar = StateBar()
-    simple = SimpleMenu()
+    # simple = SimpleMenu()
+    simpleSubMent = SimpleSubMenu()
     sys.exit(app.exec())
 
 
