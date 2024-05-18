@@ -214,6 +214,25 @@ class SimpleContexMenu(QMainWindow):
             print('Open file')
 
 
+class SimpleToolBar(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.toolTip = None
+        self.initInterface()
+
+    def initInterface(self):
+        exit_action = QAction(QIcon('exit.png'), 'Exit', self)
+        exit_action.setShortcut('Ctrl+Q')
+        exit_action.triggered.connect(QApplication.instance().quit)
+
+        self.toolTip = self.addToolBar('Exit')
+        self.toolTip.addAction(exit_action)
+
+        self.setGeometry(300, 300, 350, 250)
+        self.setWindowTitle('ToolBar')
+        self.show()
+
+
 def main():
     app = QApplication(sys.argv)
     # hello = HelloWorld()
@@ -225,7 +244,8 @@ def main():
     # simple = SimpleMenu()
     # simple_sub_ment = SimpleSubMenu()
     # simple_check_menu = SimpleCheckMenu()
-    simple_context_menu = SimpleContexMenu()
+    # simple_context_menu = SimpleContexMenu()
+    simple_tool_bar = SimpleToolBar()
     sys.exit(app.exec())
 
 
