@@ -157,6 +157,36 @@ class SimpleSubMenu(QMainWindow):
         self.show()
 
 
+class SimpleCheckMenu(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.status_bar = self.statusBar()
+        self.initInterface()
+
+    def initInterface(self):
+        self.status_bar.showMessage('Ready')
+
+        menu_bar = self.menuBar()
+        view_menu = menu_bar.addMenu('View')
+
+        view_state_action = QAction('View statusbar', self, checkable=True)
+        view_state_action.setStatusTip('View statusbar')
+        view_state_action.setChecked(True)
+        view_state_action.triggered.connect(self.toggleMenu)
+
+        view_menu.addAction(view_state_action)
+
+        self.setGeometry(300, 300, 350, 250)
+        self.setWindowTitle('Check menu')
+        self.show()
+
+    def toggleMenu(self, state):
+        if state:
+            self.status_bar.show()
+        else:
+            self.status_bar.hide()
+
+
 def main():
     app = QApplication(sys.argv)
     # hello = HelloWorld()
@@ -166,7 +196,8 @@ def main():
     # center_screen = CenterScreen()
     # state_bar = StateBar()
     # simple = SimpleMenu()
-    simpleSubMent = SimpleSubMenu()
+    # simple_sub_ment = SimpleSubMenu()
+    simple_check_menu = SimpleCheckMenu()
     sys.exit(app.exec())
 
 
