@@ -187,6 +187,33 @@ class SimpleCheckMenu(QMainWindow):
             self.status_bar.hide()
 
 
+class SimpleContexMenu(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.initInterface()
+
+    def initInterface(self):
+        self.setGeometry(300, 300, 350, 250)
+        self.setWindowTitle('Context menu')
+        self.show()
+
+    def contextMenuEvent(self, event):
+        cus_menu = QMenu(self)
+
+        new_act = cus_menu.addAction('New')
+        open_act = cus_menu.addAction('Open')
+        quit_act = cus_menu.addAction('Quit')
+
+        action = cus_menu.exec(self.mapToGlobal(event.pos()))
+
+        if action == quit_act:
+            QApplication.instance().quit()
+        if action == new_act:
+            print('New file')
+        if action == open_act:
+            print('Open file')
+
+
 def main():
     app = QApplication(sys.argv)
     # hello = HelloWorld()
@@ -197,7 +224,8 @@ def main():
     # state_bar = StateBar()
     # simple = SimpleMenu()
     # simple_sub_ment = SimpleSubMenu()
-    simple_check_menu = SimpleCheckMenu()
+    # simple_check_menu = SimpleCheckMenu()
+    simple_context_menu = SimpleContexMenu()
     sys.exit(app.exec())
 
 
