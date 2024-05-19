@@ -1,5 +1,5 @@
 import sys
-from PyQt6.QtCore import Qt
+from PyQt6.QtCore import Qt, QObject, pyqtSignal
 from PyQt6.QtWidgets import (QWidget, QLCDNumber, QSlider,
                              QVBoxLayout, QApplication, QGridLayout, QLabel, QPushButton, QMainWindow)
 
@@ -100,12 +100,36 @@ class EventSenderSample(QMainWindow):
         self.statusBar().showMessage(msg)
 
 
+class Communicate(QObject):
+    close_app = pyqtSignal()
+
+
+class EmitSignalSample(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.c = None
+        self.initInterface()
+
+    def initInterface(self):
+
+        self.c = Communicate()
+        self.c.close_app.connect(self.close)
+
+        self.setGeometry(300, 300, 450, 350)
+        self.setWindowTitle('Emit signal')
+        self.show()
+
+    def mousePressEvent(self, e):
+        self.c.closeApp.emit()    
+
+
 def main():
     app = QApplication(sys.argv)
     # ex = SignalSlotExample()
     # event = EventHandleSample()
     # mouse = MouseEventSample()
-    event_sender = EventSenderSample()
+    # event_sender = EventSenderSample()
+    emit_signal = EmitSignalSample()
     sys.exit(app.exec())
 
 
