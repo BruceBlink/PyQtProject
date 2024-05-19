@@ -1,7 +1,9 @@
-from PyQt6.QtGui import QColor
+from pathlib import Path
+
+from PyQt6.QtGui import QColor, QIcon, QAction
 from PyQt6.QtWidgets import (QWidget, QPushButton, QLineEdit,
                              QInputDialog, QApplication, QFrame, QColorDialog, QLabel, QFontDialog, QSizePolicy,
-                             QVBoxLayout)
+                             QVBoxLayout, QFileDialog, QTextEdit, QMainWindow)
 import sys
 
 
@@ -100,11 +102,47 @@ class FontDialogSample(QWidget):
             self.lbl.setFont(font)
 
 
+class FileDialogSample(QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        self.textEdit = None
+        self.initUI()
+
+    def initUI(self):
+        self.textEdit = QTextEdit()
+        self.setCentralWidget(self.textEdit)
+        self.statusBar()
+
+        open_file = QAction(QIcon('open.png'), 'Open', self)
+        open_file.setShortcut('Ctrl+O')
+        open_file.setStatusTip('Open new File')
+        open_file.triggered.connect(self.showDialog)
+
+        menu_bar = self.menuBar()
+        file_menu = menu_bar.addMenu('&File')
+        file_menu.addAction(open_file)
+
+        self.setGeometry(300, 300, 550, 450)
+        self.setWindowTitle('File dialog')
+        self.show()
+
+    def showDialog(self):
+        home_dir = str(Path.home())
+        fame = QFileDialog.getOpenFileName(self, 'Open file', home_dir)
+
+        if fame[0]:
+            with open(fame[0], 'r') as f:
+                data = f.read()
+                self.textEdit.setText(data)
+
+
 def main():
     app = QApplication(sys.argv)
     # ex = InputDialogSample()
     # color = ColorDialogSample()
-    font = FontDialogSample()
+    # font = FontDialogSample()
+    file = FileDialogSample()
     sys.exit(app.exec())
 
 
