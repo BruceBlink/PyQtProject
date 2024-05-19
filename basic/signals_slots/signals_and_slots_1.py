@@ -8,15 +8,19 @@ class MainWindow(QMainWindow):
         super().__init__()
         self.setWindowTitle("My app")
         button = QPushButton("Press Me!")
-        button.setChecked(True)
+        button.setCheckable(True)
         # 给clicked 的signal添加slot the_button_was_clicked
         # 点击button后控制台会输出'Clicked'
         button.clicked.connect(self.the_button_was_clicked)
+        # 添加 toggled的信号槽传递checked状态
+        button.clicked.connect(self.the_button_was_toggled)
         self.setCentralWidget(button)
 
     def the_button_was_clicked(self):
         print("Clicked")
 
+    def the_button_was_toggled(self, checked):
+        print("Checked?", checked)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
