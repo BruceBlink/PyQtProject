@@ -1,7 +1,7 @@
 import sys
 from PyQt6.QtCore import Qt
 from PyQt6.QtWidgets import (QWidget, QLCDNumber, QSlider,
-                             QVBoxLayout, QApplication, QGridLayout, QLabel)
+                             QVBoxLayout, QApplication, QGridLayout, QLabel, QPushButton, QMainWindow)
 
 
 class SignalSlotExample(QWidget):
@@ -73,11 +73,39 @@ class MouseEventSample(QWidget):
         self.label.setText(text)
 
 
+class EventSenderSample(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        self.initInterface()
+
+    def initInterface(self):
+        btn1 = QPushButton("Button 1", self)
+        btn1.move(30, 50)
+
+        btn2 = QPushButton("Button 2", self)
+        btn2.move(150, 50)
+
+        btn1.clicked.connect(self.buttonClicked)
+        btn2.clicked.connect(self.buttonClicked)
+
+        self.statusBar()
+
+        self.setGeometry(300, 300, 450, 350)
+        self.setWindowTitle('Event sender')
+        self.show()
+
+    def buttonClicked(self):
+        sender = self.sender()
+        msg = f'{sender.text()} was pressed'
+        self.statusBar().showMessage(msg)
+
+
 def main():
     app = QApplication(sys.argv)
     # ex = SignalSlotExample()
     # event = EventHandleSample()
-    mouse = MouseEventSample()
+    # mouse = MouseEventSample()
+    event_sender = EventSenderSample()
     sys.exit(app.exec())
 
 
